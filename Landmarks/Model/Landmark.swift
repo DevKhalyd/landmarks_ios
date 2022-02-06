@@ -14,7 +14,8 @@ import CoreLocation
 
 // Hashable: A type that can be hashed into a Hasher to produce an Integer hash value.
 
-struct Landmark : Hashable, Codable {
+// Identifiable avoid to use: id:\.id
+struct Landmark : Hashable, Codable, Identifiable {
     
     var id: Int
     var name:String
