@@ -9,7 +9,13 @@ import SwiftUI
 
 struct LandmarkDetail: View {
     
+    @EnvironmentObject var modelData: ModelData
     var landmark : Landmark
+    
+    var landmarkIndex:Int {
+        // $0 first argument passed
+        modelData.landmarks.firstIndex(where: {$0.id == landmark.id})!
+    }
     
     var body: some View {
         ScrollView {
@@ -21,11 +27,16 @@ struct LandmarkDetail: View {
                 .offset(y:-130)
                 .padding(.bottom,-140)
             VStack(alignment: .leading) {
-                Text(landmark.name)
-                // Applies the system font to the text so that
-                // it responds correctly to the user´s prefereed
-                // font sizes and settings
-                    .font(.title)
+                HStack {
+                    Text(landmark.name)
+                    // Applies the system font to the text so that
+                    // it responds correctly to the user´s prefereed
+                    // font sizes and settings
+                        .font(.title)
+                    // Get a new value each time updates the UI
+                    // So i guess when the icon is pressed update the datasource...
+                    FavoriteButton(isSet: $modelData.landmarks[landmarkIndex].isFavorite)
+                }
                 HStack {
                     Text(landmark.park)
                     Spacer()
@@ -50,7 +61,9 @@ struct LandmarkDetail: View {
 }
 
 struct LandmarkDetail_Previews: PreviewProvider {
+    static let modelData = ModelData()
     static var previews: some View {
-        LandmarkDetail(landmark: landmarks[0])
+        LandmarkDetail(landmark: modelData.landmarks[0])
+            .environmentObject(modelData)
     }
 }
