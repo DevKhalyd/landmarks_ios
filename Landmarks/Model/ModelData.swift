@@ -13,6 +13,7 @@ import Combine
 final class ModelData : ObservableObject {
    // Listen to changes now
    @Published var landmarks : [Landmark] = load("landmarkData.json")
+   var hikes: [Hike] = load("hikeData.json")
 }
 
 func load<T:Decodable>(_ filename : String) -> T{
